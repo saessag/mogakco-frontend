@@ -25,12 +25,12 @@ const appRoutes = () => {
         <Route index element={<Main />} />
 
         <Route element={<RestrictedRoute />}>
-          <Route path='login' element={<Login />} />
-          <Route path='signup' element={<SignUp />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
         </Route>
 
         <Route element={<PrivateRoute />}>
-          <Route path='mypage' element={<MyPage />} />
+          <Route path='/mypage' element={<MyPage />} />
         </Route>
 
         <Route path='*' element={<NotFound />} />
