@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ForwardRefRenderFunction, forwardRef } from 'react';
 import { ButtonStyle, ButtonStyleProps } from './styled';
 
 // TODO: with Icon?
@@ -6,18 +6,28 @@ interface ButtonProps extends ButtonStyleProps {
   children: React.ReactNode;
 }
 
-const Button: FC<ButtonProps> = ({
-  children,
-  // button style
-  size,
-  variant,
-  color,
-}) => {
+const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
+  {
+    children,
+    // button style
+    size,
+    variant,
+    color,
+    ...rest
+  },
+  ref
+) => {
   return (
-    <ButtonStyle size={size} variant={variant} color={color}>
+    <ButtonStyle
+      size={size}
+      variant={variant}
+      color={color}
+      ref={ref}
+      {...rest}
+    >
       {children}
     </ButtonStyle>
   );
 };
 
-export default Button;
+export default forwardRef(Button);

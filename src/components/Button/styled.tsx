@@ -1,7 +1,9 @@
 import { ColorProps, SizeProps } from '@styles/Props';
+import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-export interface ButtonStyleProps {
+export interface ButtonStyleProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: ColorProps;
   size?: SizeProps;
   variant?: 'text' | 'contained' | 'outlined';
