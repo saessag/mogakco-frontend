@@ -56,7 +56,7 @@ instance.interceptors.response.use(
     if (response.status === 200) {
       if (response.data.statusCode === 'auth') {
         // 토근 갱신 요청 로직 혹은 에러 핸들링 코드 추가
-        return;
+        return response;
       }
     } else {
     }
