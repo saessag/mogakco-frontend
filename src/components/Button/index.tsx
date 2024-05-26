@@ -1,4 +1,4 @@
-import React, { FC, ForwardRefRenderFunction, forwardRef } from 'react';
+import React, { ForwardRefRenderFunction, forwardRef } from 'react';
 import { ButtonStyle, ButtonStyleProps } from './styled';
 
 // TODO: with Icon?
