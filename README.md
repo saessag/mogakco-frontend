@@ -1,4 +1,5 @@
 # Library
+
 - axios
 - react-router-dom
 <!-- Styled -->
@@ -8,3 +9,6 @@
 <!-- Path Alias -->
 - @craco/craco
 - tsconfig-paths-webpack-plugin
+<!--  -->
+- react-hook-form
+- zod

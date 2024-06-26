@@ -9,10 +9,12 @@ import theme from '@styles/Theme';
 // TODO: need combine Provider
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <BrowserRouter basename='/'>{appRoutes()}</BrowserRouter>
-    </ThemeProvider>
+    <BrowserRouter basename='/'>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        {appRoutes()}
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

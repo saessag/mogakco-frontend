@@ -1,10 +1,12 @@
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Outlet, Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import MyPage from './MyPage';
 import Main from './Main';
 import RestrictedRoute from './RestrictedRoute';
 import PrivateRoute from './PrivateRoute';
 import SignUp from './SignUp';
+import Header from '@components/Header';
+import Container from '@components/Container';
 
 const NotFound = () => {
   return (
@@ -17,23 +19,52 @@ const NotFound = () => {
   );
 };
 
+const Layout = () => {
+  return (
+    <>
+      <Header />
+      <Container>
+        <Outlet />
+      </Container>
+    </>
+  );
+};
+
 // TODO: add ErrorBoundary 요류 처리?
 const appRoutes = () => {
   return (
     <Routes>
-      <Route path='/'>
-        <Route index element={<Main />} />
+      <Route
+        path='/'
+        element={<Layout />}
+      >
+        <Route
+          index
+          element={<Main />}
+        />
 
         <Route element={<RestrictedRoute />}>
-          <Route path='login' element={<Login />} />
-          <Route path='signup' element={<SignUp />} />
+          <Route
+            path='/login'
+            element={<Login />}
+          />
+          <Route
+            path='/signup'
+            element={<SignUp />}
+          />
         </Route>
 
         <Route element={<PrivateRoute />}>
-          <Route path='mypage' element={<MyPage />} />
+          <Route
+            path='/mypage'
+            element={<MyPage />}
+          />
         </Route>
 
-        <Route path='*' element={<NotFound />} />
+        <Route
+          path='*'
+          element={<NotFound />}
+        />
       </Route>
     </Routes>
   );

@@ -1,10 +1,12 @@
-import { ColorProps, SizeProps } from '@styles/Props';
+import React from 'react';
 import styled from 'styled-components';
+import { ColorProps, SizeProps } from '@styles/Props';
 
-export interface ButtonStyleProps {
-  color?: ColorProps;
-  size?: SizeProps;
-  variant?: 'text' | 'contained' | 'outlined';
+export interface ButtonStyleProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  $color?: ColorProps;
+  $size?: SizeProps;
+  $variant?: 'text' | 'contained' | 'outlined';
 }
 
 export const ButtonStyle = styled.button<ButtonStyleProps>`
@@ -17,10 +19,12 @@ export const ButtonStyle = styled.button<ButtonStyleProps>`
   box-sizing: border-box;
   transition: all 200ms ease-in-out;
   font-weight: 500;
+  vertical-align: middle;
+  margin: 0;
 
   /* props */
-  font-size: ${({ size = 'medium' }) => {
-    switch (size) {
+  font-size: ${({ $size = 'medium' }) => {
+    switch ($size) {
       case 'small':
         return '14px';
       case 'medium':
@@ -30,9 +34,9 @@ export const ButtonStyle = styled.button<ButtonStyleProps>`
         return '18px';
     }
   }};
-  padding: ${({ size = 'medium', variant = 'contained' }) => {
-    if (variant === 'text') {
-      switch (size) {
+  padding: ${({ $size = 'medium', $variant = 'contained' }) => {
+    if ($variant === 'text') {
+      switch ($size) {
         case 'small':
           return '4px 5px';
         case 'medium':
@@ -41,8 +45,8 @@ export const ButtonStyle = styled.button<ButtonStyleProps>`
         case 'large':
           return '8px 11px';
       }
-    } else if (variant === 'outlined') {
-      switch (size) {
+    } else if ($variant === 'outlined') {
+      switch ($size) {
         case 'small':
           return '3px 9px';
         case 'medium':
@@ -51,8 +55,8 @@ export const ButtonStyle = styled.button<ButtonStyleProps>`
         case 'large':
           return '7px 21px';
       }
-    } else if (variant === 'contained') {
-      switch (size) {
+    } else if ($variant === 'contained') {
+      switch ($size) {
         case 'small':
           return '4px 10px';
         case 'medium':
@@ -64,29 +68,31 @@ export const ButtonStyle = styled.button<ButtonStyleProps>`
     }
   }};
   border-radius: ${({ theme }) => `${theme.shape.borderRadius}px`};
-  border: ${({ theme, color = 'primary', variant = 'contained' }) =>
-    variant === 'outlined' ? `1px solid ${theme.palette[color].main}` : 'none'};
-  background-color: ${({ theme, color = 'primary', variant = 'contained' }) =>
-    variant === 'contained' ? theme.palette[color].main : 'transparent'};
-  color: ${({ theme, color = 'primary', variant = 'contained' }) =>
-    variant === 'contained'
+  border: ${({ theme, $color = 'primary', $variant = 'contained' }) =>
+    $variant === 'outlined'
+      ? `1px solid ${theme.palette[$color].main}`
+      : 'none'};
+  background-color: ${({ theme, $color = 'primary', $variant = 'contained' }) =>
+    $variant === 'contained' ? theme.palette[$color].main : 'transparent'};
+  color: ${({ theme, $color = 'primary', $variant = 'contained' }) =>
+    $variant === 'contained'
       ? theme.palette.primary.contrastText
-      : theme.palette[color].main};
+      : theme.palette[$color].main};
 
   &:hover {
     filter: brightness(0.85);
-    background-color: ${({ theme, variant = 'contained' }) =>
-      variant !== 'contained' && theme.palette.action.hover};
+    background-color: ${({ theme, $variant = 'contained' }) =>
+      $variant !== 'contained' && theme.palette.action.hover};
   }
   &:disabled {
     cursor: default;
-    background-color: ${({ theme, variant = 'contained' }) =>
-      variant === 'contained'
+    background-color: ${({ theme, $variant = 'contained' }) =>
+      $variant === 'contained'
         ? theme.palette.action.disabledBackground
         : 'transparent'};
     color: ${({ theme }) => theme.palette.action.disabled};
-    border: ${({ theme, variant = 'contained' }) =>
-      variant === 'outlined'
+    border: ${({ theme, $variant = 'contained' }) =>
+      $variant === 'outlined'
         ? `1px solid ${theme.palette.action.disabledBackground}`
         : 'none'};
   }

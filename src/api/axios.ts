@@ -8,7 +8,7 @@ import axios, {
  * axios instance
  * TODO: base URL 및 헤더 옵션 추가
  */
-const instance = axios.create({
+const axiosInstance = axios.create({
   // API URL (process.env?)
   baseURL: '',
   // Content-Type 및 cache 처리
@@ -26,7 +26,7 @@ const instance = axios.create({
  * axios 요청 인터셉터 (request interceptors)
  * TODO: API 요청 전에 처리해야 할 로직 추가(ex. 인증 정보를 헤더에 추가)
  */
-instance.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     // token 가져오는 로직(아래는 예시)
     const user = JSON.parse(localStorage.getItem('user') as string);
@@ -50,13 +50,13 @@ instance.interceptors.request.use(
  * axios 응답 인터셉터 (response interceptors)
  * TODO: API 응답 전에 처리해야 할 로직 추가(인증 토근 만료 시 갱신)
  */
-instance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   async (response: AxiosResponse): Promise<AxiosResponse> => {
     // 만약 서버에서 오류 코드를 만든 경우
     if (response.status === 200) {
       if (response.data.statusCode === 'auth') {
         // 토근 갱신 요청 로직 혹은 에러 핸들링 코드 추가
-        return;
+        return response;
       }
     } else {
     }
