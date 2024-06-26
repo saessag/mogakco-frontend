@@ -1,48 +1,73 @@
-import React, {
-  ForwardRefRenderFunction,
-  InputHTMLAttributes,
-  forwardRef,
-} from 'react';
+import React, { useId } from 'react';
 import {
-  InputControl,
-  InputControlProps,
+  InputWrapperStyle,
   InputStyle,
-  InputWrapper,
-  InputWrapperProps,
+  InputWrapperStyleProps,
+  InputStyleProps,
+  InputControlStyle,
 } from './styled';
-import { SizeProps } from '@styles/Props';
 import HelperText from '@components/HelperText';
 
-interface InputProps extends InputWrapperProps, InputControlProps {
-  size?: SizeProps;
-  inputProps?: React.DetailedHTMLProps<
-    InputHTMLAttributes<HTMLInputElement>,
+interface InputBaseProps extends InputWrapperStyleProps, InputStyleProps {
+  $inputProps?: React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   >;
-  helperText?: string;
 }
 
-const Input: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { color, size = 'medium', variant, inputProps, fullWidth, helperText, error },
-  ref
-) => {
-  const padding =
-    size === 'large' ? '16px 14px' : size === 'small' ? '4px 14px' : '8px 14px';
+interface InputControlProps extends InputBaseProps {
+  $label?: string;
+  $helperText?: string;
+}
 
+export const InputBase: React.FC<InputBaseProps> = ({
+  $color,
+  $error,
+  $size,
+  $fullWidth,
+  $inputProps = {},
+}) => {
   return (
-    <InputControl fullWidth={fullWidth}>
-      <InputWrapper color={color} variant={variant} error={error}>
-        <InputStyle
-          style={{
-            padding,
-          }}
-          {...inputProps}
-          ref={ref}
-        />
-      </InputWrapper>
-      {helperText && <HelperText helperText={helperText} error={error} />}
-    </InputControl>
+    <InputWrapperStyle
+      $color={$color}
+      $error={$error}
+      $fullWidth={$fullWidth}
+    >
+      <InputStyle
+        $size={$size}
+        {...$inputProps}
+      />
+    </InputWrapperStyle>
   );
 };
 
-export default forwardRef(Input);
+export const InputControl: React.FC<InputControlProps> = ({
+  $color,
+  $error,
+  $fullWidth,
+  $size,
+  $helperText,
+  $label,
+  $inputProps,
+}) => {
+  const generatedId = useId();
+  const id = $inputProps?.id || generatedId;
+  return (
+    <InputControlStyle $fullWidth={$fullWidth}>
+      <label htmlFor={id}>{$label}</label>
+      <InputBase
+        $error={$error}
+        $fullWidth={$fullWidth}
+        $color={$color}
+        $size={$size}
+        $inputProps={$inputProps}
+      />
+      {$helperText && (
+        <HelperText
+          $helperText={$helperText}
+          $error={$error}
+        />
+      )}
+    </InputControlStyle>
+  );
+};
